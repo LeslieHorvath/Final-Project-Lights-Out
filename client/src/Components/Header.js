@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FaLightbulb } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FiUserCheck } from "react-icons/fi";
+import SearchBar from "./SearchBar";
+import LoginButton from "./Login/LoginButton";
 const Header = () => {
   return (
     <Wrapper>
@@ -14,9 +16,10 @@ const Header = () => {
         </Icon>
         ut
       </IconContainer>
-      <SearchInput type={"text"} placeholder="search" />
+      <SearchBar to={"/results"}/>
       <Login>
-        <FiUserCheck color={"#8A5082"} size={30} marginRight={100} />
+        {/* <FiUserCheck color={"#8A5082"} size={30} /> */}
+        <LoginButton />
       </Login>
     </Wrapper>
   );
@@ -56,21 +59,6 @@ const Home = styled(NavLink)`
   display: flex;
   margin-left: 30px;
   font-size: 24px;
-`;
-
-const SearchInput = styled.input`
-font-size: 20px;
-color: #8A5082;
-background-color: #051622;
-outline: none;
-border: 2px solid #8A5082;
-border-radius: 10px;
-height: 30px;
-width: 250px;
-margin-left: 300px;
-&::placeholder{
-  color: #8A5082;
-}
 `;
 
 const Login = styled.div`

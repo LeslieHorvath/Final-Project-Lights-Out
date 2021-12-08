@@ -1,14 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { MovieProvider } from "./Components/Context/MovieContext";
+import {Auth0Provider} from "@auth0/auth0-react"
+require("dotenv").config({ path: "../.env" });
+const { REACT_APP_CLIENT_ID } = process.env;
+// console.log(process.env)
+// console.log(REACT_APP_CLIENT_ID)
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Auth0Provider
+  domain="dev-fvctg4qu.us.auth0.com"
+  clientId= {REACT_APP_CLIENT_ID}
+  redirectUri={window.location.origin}>
+  <MovieProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </MovieProvider>
+  </Auth0Provider>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

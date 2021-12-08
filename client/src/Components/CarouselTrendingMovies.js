@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Carousel from "react-elastic-carousel";
-import Movie from "./Movie";
+import MovieTrending from "./MovieTrending";
 require("dotenv").config({ path: "../../.env" });
 const { REACT_APP_API_KEY } = process.env;
 // console.log(process.env)
@@ -21,7 +21,7 @@ const CarouselTrendingMovies = () => {
     <>
       <StyledCarousel focusOnSelect={true} itemsToShow={7}>
         {movies.map((movie) => (
-          <Movie key={movie.id} {...movie} />
+          <MovieTrending key={movie.id} {...movie} />
         ))}
       </StyledCarousel>
     </>

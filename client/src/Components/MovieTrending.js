@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 
-const Movie = ({ title, poster_path, overview, vote_average }) => {
+const MovieTrending = ({ title, poster_path }) => {
   return (
     <div>
       <Img src={IMG_API + poster_path} alt={title} />
@@ -15,4 +15,4 @@ const Img = styled.img`
   width: 190px;
   border-radius: 10px;
 `;
-export default Movie;
+export default MovieTrending;
