@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiUserCheck } from "react-icons/fi";
+import { UserContext } from "../Context/UserContext";
 
 const LoginButton = () => {
-  const {user, loginWithRedirect } = useAuth0();
+  const {user, loginWithRedirect } = useContext(UserContext);
 console.log(user)
   return (
-    <Button onClick={() => loginWithRedirect()}>
+    <Button onClick={loginWithRedirect}>
       <FiUserCheck size={30} color={"#8a5082"}/>
     </Button>
   );

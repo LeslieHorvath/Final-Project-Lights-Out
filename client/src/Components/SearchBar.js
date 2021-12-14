@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { MovieContext } from "./Context/MovieContext";
 require("dotenv").config({ path: "../../.env" });
 const { REACT_APP_API_KEY } = process.env;
-const SEARCH_API = `https://api.themoviedb.org/3/search/movie?&api_key=${REACT_APP_API_KEY}&query=`;
+const SEARCH_API = `https://api.themoviedb.org/3/search/tv?&api_key=${REACT_APP_API_KEY}&query=`;
 
 const SearchBar = () => {
   const [searchTerm, SetSearchTerm] = useState("");
@@ -22,7 +22,6 @@ const SearchBar = () => {
         console.log(data.results);
       });
     history.push("/results");
-    SetSearchTerm("");
   };
 
   const handleOnChange = (ev) => {

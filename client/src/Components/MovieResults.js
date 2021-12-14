@@ -1,18 +1,105 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaLightbulb } from "react-icons/fa";
-import AltImage from "../assets/alt-image2.jpg"
+import AltImage from "../assets/alt-image2.jpg";
+import { useAuth0 } from "@auth0/auth0-react";
+import { MovieContext } from "./Context/MovieContext";
+import { UserContext } from "./Context/UserContext";
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
-const MovieResults = ({ title, poster_path, overview, vote_average }) => {
+
+const MovieResults = ({ id, title, poster_path, overview, vote_average }) => {
+  const { favoriteMovies, setFavoriteMovies } = useContext(MovieContext);
+  //usestate for is favorited
+  let [isFavorited, setIsFavorited] = useState(false);
+  //useeffect that checks currentuser from context favorite movie array to see id is in it
+  //if it is then change to true
+  //in lightbulb if ? isfavorited then change color={}
+  const { user } = useContext(UserContext);
+  const handleAddMovie = () => {
+    // ev.preventDefault();
+    if (user) {
+      console.log(user);
+      fetch("/lightsout/addmovie", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.email,
+          movie: {
+            id,
+            poster_path,
+          },
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setFavoriteMovies(data.results);
+        });
+    }
+  };
+  const handleRemoveMovie = () => {
+    // ev.preventDefault();
+    if (user) {
+      console.log(user);
+      fetch("/lightsout/removemovie", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.email,
+          movie: {
+            id,
+            poster_path,
+          },
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setFavoriteMovies(data.results);
+        });
+    }
+  };
+  const toggleFavoriteMovie = () => {
+    if (isFavorited === false) {
+      handleAddMovie();
+    } else handleRemoveMovie();
+  };
+
+  useEffect(() => {
+    if (user) {
+      favoriteMovies.map((favoriteMovie) => {
+        if (favoriteMovie.id === id) {
+          setIsFavorited(!isFavorited);
+        }
+      });
+    }
+  }, [id]);
   return (
     <>
       <Wrapper>
         <MovieContainer>
-          <Img src={poster_path ? (IMG_API + poster_path) : (AltImage) } alt={title} />
+          <Img
+            src={poster_path ? IMG_API + poster_path : AltImage}
+            alt={title}
+          />
           <MovieInfo>
             <H3>IMDb rating:</H3>
             <Average>{vote_average}</Average>
-            <FaLightbulb size={22} color={"yellow"} />
+            <Button
+              onClick={() => {
+                toggleFavoriteMovie();
+                setIsFavorited(!isFavorited);
+              }}
+            >
+              <FaLightbulb
+                size={22}
+                style={isFavorited ? { fill: "yellow" } : { fill: "white" }}
+              />
+            </Button>
           </MovieInfo>
           <MovieOverview>
             <MovieTitle>{title}</MovieTitle>
@@ -25,10 +112,17 @@ const MovieResults = ({ title, poster_path, overview, vote_average }) => {
   );
 };
 
-const MovieTitle=styled.h4`
-font-weight: 600;
-display: flex;
-justify-content: center;`
+const Button = styled.button`
+  background-color: #373b69;
+  border: none;
+  cursor: pointer;
+`;
+
+const MovieTitle = styled.h4`
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+`;
 const Wrapper = styled.div`
   padding-top: 20px;
 `;
@@ -82,14 +176,14 @@ const MovieInfo = styled.div`
 
 const H3 = styled.h3`
   padding-left: 10px;
-  padding-right: 10px;
+  padding-right: 7px;
   margin: 0;
 `;
 
 const Average = styled.span`
   font-size: 19px;
   font-weight: 700;
-  padding-right: 70px;
+  padding-right: 60px;
 `;
 
 const H2 = styled.h2`

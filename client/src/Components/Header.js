@@ -2,13 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { FaLightbulb } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { FiUserCheck } from "react-icons/fi";
 import SearchBar from "./SearchBar";
 import LoginButton from "./Login/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
+
 const Header = () => {
+  const { isAuthenticated } = useAuth0();
   return (
     <Wrapper>
       <Home to={"/"}>Home</Home>
+      {isAuthenticated && <Profile to={"/profile"}>Profile</Profile>}
       <IconContainer>
         <Span>L</Span>ights
         <Icon>
@@ -16,9 +19,8 @@ const Header = () => {
         </Icon>
         ut
       </IconContainer>
-      <SearchBar to={"/results"}/>
+      <SearchBar to={"/results"} />
       <Login>
-        {/* <FiUserCheck color={"#8A5082"} size={30} /> */}
         <LoginButton />
       </Login>
     </Wrapper>
@@ -55,7 +57,7 @@ const Span = styled.span`
 
 const Home = styled(NavLink)`
   text-decoration: none;
-  color: #8A5082;
+  color: #8a5082;
   display: flex;
   margin-left: 30px;
   font-size: 24px;
@@ -63,5 +65,15 @@ const Home = styled(NavLink)`
 
 const Login = styled.div`
   margin-right: 30px;
+  margin-left: 20px;
 `;
+
+const Profile = styled(NavLink)`
+  text-decoration: none;
+  color: #8a5082;
+  display: flex;
+  margin-left: 30px;
+  font-size: 24px;
+`;
+
 export default Header;

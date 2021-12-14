@@ -4,21 +4,26 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { MovieProvider } from "./Components/Context/MovieContext";
-import {Auth0Provider} from "@auth0/auth0-react"
+import { Auth0Provider } from "@auth0/auth0-react";
+import { UserProvider } from "./Components/Context/UserContext";
 require("dotenv").config({ path: "../.env" });
 const { REACT_APP_CLIENT_ID } = process.env;
 // console.log(process.env)
 // console.log(REACT_APP_CLIENT_ID)
 ReactDOM.render(
   <Auth0Provider
-  domain="dev-fvctg4qu.us.auth0.com"
-  clientId= {REACT_APP_CLIENT_ID}
-  redirectUri={window.location.origin}>
-  <MovieProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </MovieProvider>
+    domain="dev-fvctg4qu.us.auth0.com"
+    clientId={REACT_APP_CLIENT_ID}
+    redirectUri={window.location.origin}
+    cacheLocation="localstorage"
+  >
+      <UserProvider>
+    <MovieProvider>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+    </MovieProvider>
+      </UserProvider>
   </Auth0Provider>,
   document.getElementById("root")
 );

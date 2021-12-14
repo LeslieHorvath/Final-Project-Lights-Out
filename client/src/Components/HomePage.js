@@ -4,9 +4,10 @@ import starBackground from "../assets/lights-out-bg3.jpg";
 import styled from "styled-components";
 import CarouselTrendingMovies from "./CarouselTrendingMovies";
 import CarouselTrendingTv from "./CarouselTrendingTv";
+import FooterHomepage from "./FooterHomepage";
 const HomePage = () => {
   return (
-    <>
+    <Wrapper>
       <Header />
       <BgImage src={starBackground} alt={"stars"} />
       <Carousel>
@@ -15,9 +16,14 @@ const HomePage = () => {
         <TrendingTv>Trending TV Shows</TrendingTv>
         <CarouselTrendingTv />
       </Carousel>
-    </>
+      <FooterHomepage />
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  position: relative;
+`;
 
 const BgImage = styled.img`
   position: absolute;
