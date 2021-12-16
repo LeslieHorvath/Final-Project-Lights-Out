@@ -1,6 +1,9 @@
 import React from "react";
+
 import styled from "styled-components";
+
 import LogoutButton from "./Login/LogoutButton";
+
 const FooterHomepage = () => {
   return (
     <Wrapper>
@@ -10,9 +13,9 @@ const FooterHomepage = () => {
 };
 
 const Wrapper = styled.div`
-display: flex;
-justify-content: flex-end;
-align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   position: absolute;
   background-color: rgba(5, 22, 34, 0.95);
   height: 90px;

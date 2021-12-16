@@ -8,24 +8,21 @@ const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-
+//Used to at a user to mongoDB
 const addUser = async (req, res) => {
-  // console.log(req.body)
   const client = new MongoClient(REACT_APP_MONGO_URI, options);
   await client.connect();
   const db = client.db("Lights_Out");
-  console.log(req.body.email);
   const foundUser = await db
     .collection("users")
     .findOne({ email: req.body.email });
-  console.log(foundUser);
   if (!foundUser) {
     await db.collection("users").insertOne({ ...req.body, favoriteMovie: [] });
   }
   res.status(200).json({ status: 200 });
   client.close();
 };
-
+//Used to get all the favorited movies in users DB
 const getAllMovies = async (req, res) => {
   const client = new MongoClient(REACT_APP_MONGO_URI, options);
   await client.connect();
@@ -35,7 +32,6 @@ const getAllMovies = async (req, res) => {
     .findOne({ email: req.body.email });
   try {
     if (foundUser) {
-      console.log(foundUser.favoriteMovie);
       res.status(200).json({ status: 200, results: foundUser.favoriteMovie });
     }
   } catch {
@@ -43,16 +39,14 @@ const getAllMovies = async (req, res) => {
   }
   client.close();
 };
-
+//Adds a movie to users DB
 const addMovie = async (req, res) => {
   const client = new MongoClient(REACT_APP_MONGO_URI, options);
   await client.connect();
   const db = client.db("Lights_Out");
-  console.log(req.body);
   const foundUser = await db
     .collection("users")
     .findOne({ email: req.body.email });
-  console.log(foundUser);
   try {
     if (foundUser) {
       const query = { email: req.body.email };
@@ -67,7 +61,7 @@ const addMovie = async (req, res) => {
   }
   client.close();
 };
-
+//removes a movie from users DB
 const removeMovie = async (req, res) => {
   const client = new MongoClient(REACT_APP_MONGO_URI, options);
   await client.connect();

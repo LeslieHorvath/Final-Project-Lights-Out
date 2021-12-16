@@ -1,10 +1,15 @@
 import React from "react";
-import Header from "./Header";
+
+//styling
 import starBackground from "../assets/lights-out-bg3.jpg";
 import styled from "styled-components";
+
+//children
+import Header from "./Header";
 import CarouselTrendingMovies from "./CarouselTrendingMovies";
 import CarouselTrendingTv from "./CarouselTrendingTv";
 import FooterHomepage from "./FooterHomepage";
+
 const HomePage = () => {
   return (
     <Wrapper>
@@ -49,4 +54,5 @@ const TrendingTv = styled.h2`
   color: #deb992;
   margin-top: 0px;
 `;
+
 export default HomePage;

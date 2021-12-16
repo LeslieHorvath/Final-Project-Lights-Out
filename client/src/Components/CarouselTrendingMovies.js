@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
+//Styling
 import styled from "styled-components";
+
 import Carousel from "react-elastic-carousel";
+
+//Gets the poster_path from the image api
 import MovieTrending from "./MovieTrending";
+
+//Api keys
 require("dotenv").config({ path: "../../.env" });
 const { REACT_APP_API_KEY } = process.env;
-// console.log(process.env)
-// console.log(REACT_APP_API_KEY);
 const FEATURED_API = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${REACT_APP_API_KEY}&page=1`;
+
+//Carousel that shows the top 20 trending movies
 const CarouselTrendingMovies = () => {
   const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     fetch(FEATURED_API)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setMovies(data.results);
       });
   }, []);
@@ -28,5 +34,6 @@ const CarouselTrendingMovies = () => {
   );
 };
 
-const StyledCarousel = styled(Carousel)``
+const StyledCarousel = styled(Carousel)``;
+
 export default CarouselTrendingMovies;

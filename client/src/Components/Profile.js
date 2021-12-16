@@ -1,16 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
+//Styling
 import styled from "styled-components";
+
 import Carousel from "react-elastic-carousel";
+//Children
 import Header from "./Header";
 import FooterResults from "./FooterResults";
-import { UserContext } from "./Context/UserContext";
+//Context
 import { MovieContext } from "./Context/MovieContext";
+//Used to get the poster path src
+import { useHistory } from "react-router-dom";
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
+
 const Profile = () => {
-  const { user } = useContext(UserContext);
-  const { favoriteMovies } = useContext(MovieContext);
+  const { favoriteMovies, searchType } = useContext(MovieContext);
+  const history = useHistory();
+
   if (favoriteMovies) {
-    // console.log(poster_path);
     return (
       <>
         <Header />
@@ -18,7 +24,11 @@ const Profile = () => {
           <H1>Favorite Movies</H1>
           <StyledCarousel focusOnSelect={true} itemsToShow={5}>
             {favoriteMovies.map((movie) => (
-              <Img src={IMG_API + movie.poster_path}></Img>
+              <Button
+                onClick={() => history.push(`/${searchType}/${movie.id}`)}
+              >
+                <Img src={IMG_API + movie.poster_path}></Img>
+              </Button>
             ))}
           </StyledCarousel>
         </Wrapper>
@@ -29,6 +39,16 @@ const Profile = () => {
     return <p>loading</p>;
   }
 };
+
+const Button = styled.button`
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  height: 405px;
+  width: 270px;
+  cursor: pointer;
+  padding: 0px;
+`;
 
 const H1 = styled.h1`
   display: flex;

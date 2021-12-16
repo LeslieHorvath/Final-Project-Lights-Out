@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
+//Styling
 import styled from "styled-components";
+//Children
 import MovieResults from "./MovieResults";
-import { MovieContext } from "./Context/MovieContext";
 import Header from "./Header";
 import FooterResults from "./FooterResults";
+//Context
+import { MovieContext } from "./Context/MovieContext";
+
 const Results = () => {
-  const { favoriteMovies, movies, setMovies } = useContext(MovieContext);
-  console.log(movies);
+  const { movies, searchType } = useContext(MovieContext);
+
   if (movies.length === 0)
     return (
       <>
@@ -22,12 +26,10 @@ const Results = () => {
       <Header />
       <Wrapper>
         {movies.map((movie) => (
-          <MovieResults key={movie.id} {...movie} />
+          <MovieResults key={movie.id} {...movie} searchType={searchType} />
         ))}
       </Wrapper>
-      <Div>
-        <FooterResults />
-      </Div>
+      <FooterResults />
     </>
   );
 };
@@ -38,6 +40,7 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   position: relative;
+  height: 1790px;
 `;
 
 const Div = styled.div`
@@ -47,11 +50,12 @@ const Div = styled.div`
 `;
 
 const Container = styled.div`
-background-color: #22254b;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-color: #deb992;
-`
+  background-color: #22254b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #deb992;
+`;
+
 export default Results;

@@ -8,8 +8,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { UserProvider } from "./Components/Context/UserContext";
 require("dotenv").config({ path: "../.env" });
 const { REACT_APP_CLIENT_ID } = process.env;
-// console.log(process.env)
-// console.log(REACT_APP_CLIENT_ID)
+
 ReactDOM.render(
   <Auth0Provider
     domain="dev-fvctg4qu.us.auth0.com"

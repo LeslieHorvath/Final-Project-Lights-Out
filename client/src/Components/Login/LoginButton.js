@@ -1,15 +1,17 @@
 import React, { useContext } from "react";
+//Styling
 import styled from "styled-components";
-import { useAuth0 } from "@auth0/auth0-react";
+//Icons
 import { FiUserCheck } from "react-icons/fi";
+
 import { UserContext } from "../Context/UserContext";
 
+//Login button that uses auth0 to log the user in
 const LoginButton = () => {
-  const {user, loginWithRedirect } = useContext(UserContext);
-console.log(user)
+  const { user, loginWithRedirect } = useContext(UserContext);
   return (
     <Button onClick={loginWithRedirect}>
-      <FiUserCheck size={30} color={"#8a5082"}/>
+      <FiUserCheck size={30} color={"#8a5082"} />
     </Button>
   );
 };
@@ -20,4 +22,5 @@ const Button = styled.button`
   color: #8a5082;
   background-color: rgba(5, 22, 34, 0.05);
 `;
+
 export default LoginButton;

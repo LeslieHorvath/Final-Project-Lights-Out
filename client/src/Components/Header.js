@@ -1,13 +1,22 @@
 import React from "react";
+
+//styling
 import styled from "styled-components";
+
+//icons
 import { FaLightbulb } from "react-icons/fa";
+
 import { NavLink } from "react-router-dom";
+
+//children
 import SearchBar from "./SearchBar";
 import LoginButton from "./Login/LoginButton";
+
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Header = () => {
   const { isAuthenticated } = useAuth0();
+
   return (
     <Wrapper>
       <Home to={"/"}>Home</Home>
@@ -47,7 +56,6 @@ const IconContainer = styled.h1`
   align-items: center;
   font-size: 40px;
   font-weight: 800;
-  margin-left: 50px;
   padding-left: 400px;
 `;
 
@@ -72,7 +80,6 @@ const Profile = styled(NavLink)`
   text-decoration: none;
   color: #8a5082;
   display: flex;
-  margin-left: 30px;
   font-size: 24px;
 `;
 

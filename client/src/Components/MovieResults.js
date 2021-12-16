@@ -1,24 +1,32 @@
 import React, { useContext, useEffect, useState } from "react";
+
+//styling
 import styled from "styled-components";
-import { FaLightbulb } from "react-icons/fa";
+import "tippy.js/dist/tippy.css";
+import Tippy from "@tippyjs/react";
 import AltImage from "../assets/alt-image2.jpg";
-import { useAuth0 } from "@auth0/auth0-react";
+
+//icons
+import { FaLightbulb } from "react-icons/fa";
+
+import { useHistory } from "react-router-dom";
+
 import { MovieContext } from "./Context/MovieContext";
 import { UserContext } from "./Context/UserContext";
+
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 
 const MovieResults = ({ id, title, poster_path, overview, vote_average }) => {
-  const { favoriteMovies, setFavoriteMovies } = useContext(MovieContext);
-  //usestate for is favorited
-  let [isFavorited, setIsFavorited] = useState(false);
-  //useeffect that checks currentuser from context favorite movie array to see id is in it
-  //if it is then change to true
-  //in lightbulb if ? isfavorited then change color={}
+  const { favoriteMovies, setFavoriteMovies, update, setUpdate, searchType } =
+    useContext(MovieContext);
+  const history = useHistory();
   const { user } = useContext(UserContext);
+
+  let [isFavorited, setIsFavorited] = useState(false);
+
+  //adds movie to favorite list
   const handleAddMovie = () => {
-    // ev.preventDefault();
     if (user) {
-      console.log(user);
       fetch("/lightsout/addmovie", {
         method: "PUT",
         headers: {
@@ -34,15 +42,15 @@ const MovieResults = ({ id, title, poster_path, overview, vote_average }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setFavoriteMovies(data.results);
+          setUpdate(!update);
         });
     }
   };
+
+  //removes movie from favorites list
   const handleRemoveMovie = () => {
-    // ev.preventDefault();
     if (user) {
-      console.log(user);
       fetch("/lightsout/removemovie", {
         method: "DELETE",
         headers: {
@@ -58,11 +66,12 @@ const MovieResults = ({ id, title, poster_path, overview, vote_average }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setFavoriteMovies(data.results);
+          setUpdate(!update);
         });
     }
   };
+  //toggles between favorited/not favorited
   const toggleFavoriteMovie = () => {
     if (isFavorited === false) {
       handleAddMovie();
@@ -78,6 +87,7 @@ const MovieResults = ({ id, title, poster_path, overview, vote_average }) => {
       });
     }
   }, [id]);
+
   return (
     <>
       <Wrapper>
@@ -89,6 +99,8 @@ const MovieResults = ({ id, title, poster_path, overview, vote_average }) => {
           <MovieInfo>
             <H3>IMDb rating:</H3>
             <Average>{vote_average}</Average>
+            
+            <Tippy content={isFavorited ? "Remove from Favorites" : "Add to favorites"}>
             <Button
               onClick={() => {
                 toggleFavoriteMovie();
@@ -97,20 +109,34 @@ const MovieResults = ({ id, title, poster_path, overview, vote_average }) => {
             >
               <FaLightbulb
                 size={22}
-                style={isFavorited ? { fill: "yellow" } : { fill: "white" }}
+                style={isFavorited ? { fill: "#ffbb73" } : { fill: "white" }}
               />
             </Button>
+              </Tippy>
           </MovieInfo>
           <MovieOverview>
-            <MovieTitle>{title}</MovieTitle>
-            <H2>Overview</H2>
-            <Para>{overview}</Para>
+            <DetailsButton onClick={() => history.push(`/${searchType}/${id}`)}>
+              <MovieTitle>{title}</MovieTitle>
+              <H2>Overview</H2>
+              <Para>{overview}</Para>
+            </DetailsButton>
           </MovieOverview>
         </MovieContainer>
       </Wrapper>
     </>
   );
 };
+
+const DetailsButton = styled.button`
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-radius: 10px;
+  max-height: 350px;
+  background-color: white;
+  cursor: pointer;
+  text-align: left;
+`;
 
 const Button = styled.button`
   background-color: #373b69;
@@ -123,6 +149,7 @@ const MovieTitle = styled.h4`
   display: flex;
   justify-content: center;
 `;
+
 const Wrapper = styled.div`
   padding-top: 20px;
 `;
@@ -130,6 +157,8 @@ const Wrapper = styled.div`
 const Para = styled.p`
   padding: 0px 7px;
   line-height: 1.2;
+  display: flex;
+  justify-content: center;
 `;
 
 const MovieOverview = styled.div`
